@@ -37,7 +37,7 @@ swift build -c release --arch arm64 --arch x86_64 --product aerospace -Xswiftc -
 rm -rf .release && mkdir .release
 
 xcode_configuration="Release"
-xcodebuild -version
+/usr/bin/xcrun xcodebuild -version
 xcodebuild-pretty .release/xcodebuild.log clean build \
     -scheme AeroSpace \
     -destination "generic/platform=macOS" \
@@ -82,7 +82,7 @@ if test "$expected_layout" != "$(find .release/AeroSpace.app)"; then
 fi
 
 check-universal-binary() {
-    if ! file "$1" | grep --fixed-string -q "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64"; then
+    if ! /usr/bin/file "$1" | grep --fixed-string -q "Mach-O universal binary with 2 architectures: [x86_64:Mach-O 64-bit executable x86_64] [arm64"; then
         echo "$1 is not a universal binary"
         exit 1
     fi

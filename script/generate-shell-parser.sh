@@ -14,4 +14,9 @@ rm -rf ./ShellParserGenerated/Sources/ShellParserGenerated/grammar # Antlr gener
 
 # Sources/ShellParserGenerated/ShellParser.swift:557:7: warning: variable '_prevctx' was written to, but never read
 #                 var _prevctx: CmdContext = _localctx
-sed -i '' '/_prevctx/d' ./ShellParserGenerated/Sources/ShellParserGenerated/ShellParser.swift
+# Portable in-place sed (macOS sed uses -i '', GNU sed uses -i)
+if sed --version 2>/dev/null | grep -q GNU; then
+    sed -i '/_prevctx/d' ./ShellParserGenerated/Sources/ShellParserGenerated/ShellParser.swift
+else
+    sed -i '' '/_prevctx/d' ./ShellParserGenerated/Sources/ShellParserGenerated/ShellParser.swift
+fi
